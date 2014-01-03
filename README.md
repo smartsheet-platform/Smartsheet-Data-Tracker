@@ -9,9 +9,7 @@ The Smartsheet Data Aggregator is an application that uses one or more external 
 
 2.0 - Jan 2, 2014. Adding connectors for MySQL, OpenLDAP, and REST GET. Refactored  config files for better readability.
 
-1.0 - Dec 5, 2013.
-
-* Baseline application that works with CSV files. 
+1.0 - Dec 5, 2013. Baseline application that works with CSV files. 
 
 ###Use Case
 
