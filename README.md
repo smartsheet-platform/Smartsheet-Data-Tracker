@@ -1,6 +1,5 @@
 #Smartsheet Data Aggregator
 A command line application that updates an existing sheet with data from external sources.
-* * *
 
 ##Purpose
 
@@ -8,13 +7,9 @@ The Smartsheet Data Aggregator is an application that uses one or more external 
 
 ###Revision History
 
-Data Aggregator 1.0 (Sheet Updater 2.0) - Jan 3, 2014.
+2.0 - Jan 2, 2014. Adding connectors for MySQL, OpenLDAP, and REST GET. Refactored  config files for better readability.
 
-* Adding connectors for MySQL, OpenLDAP, and REST GET. 
-* Refactored  config files for better readability. 
-* Changed name to Data Aggregator (v1).
-
-Sheet Updater 1.0 - Dec 5, 2013.
+1.0 - Dec 5, 2013.
 
 * Baseline application that works with CSV files. 
 
@@ -225,7 +220,7 @@ Additional source connectors can be created to support any data source, public o
 
 Each new source will also need a sourceConfig entry in the `sources.json` file. Each sourceConfig must have a sourceId attribute set to a unique value, as well as a  connectorClassName attribute that is set to the name of the new connector source class.
 
-**mappings.json**
+###mappings.json
 
 The `mappings.json` file contains mappings for one or more sheets. In this file the columns from the external system, or source, are mapped to corresponding columns in the sheet. 
 
@@ -245,12 +240,10 @@ An example of a mapping node using the employees source in the `mappings.json` f
 					{
 						"sourceKey": 2,
 						"sheetColumn": "Department"
-
 					},
 					{
 						"sourceColumnIndex": 1,
 						"sheetColumn": "Email"
-
 					}
 				]
 			}
@@ -309,25 +302,19 @@ To have the cron job send an email of the application output each time it runs a
 		
 When you’re done editing hit the ‘esc’ key and then type :wq to save and close the crontab file.
 
-###Help and Contact
+##Help and Contact
 
 If you have any questions or suggestions about this document, the application, or about the Smartsheet API in general please contact us at api@smartsheet.com. Development questions can also be posted to[ Stackoverflow](http://stackoverflow.com/) with the tag[ smartsheet-api](http://stackoverflow.com/questions/tagged/smartsheet-api).
 
-The Smartsheet Platform team
-* * *
-###License
+***The Smartsheet Platform team***
+
+##License
 
 Copyright 2014 Smartsheet, Inc.
 
-    
-
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-    
-
 http://www.apache.org/licenses/LICENSE-2.0
-
-    
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.             
 
