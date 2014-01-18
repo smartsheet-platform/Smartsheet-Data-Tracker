@@ -1,9 +1,9 @@
-#Smartsheet Data Aggregator
+#Smartsheet Data Tracker
 A command line application that updates an existing sheet with data from external sources.
 
 ##Purpose
 
-The Smartsheet Data Aggregator is an application that uses one or more external data sources to update existing rows in a Smartsheet with values determined by a lookup column in the sheet.
+The Smartsheet Data Tracker is an application that uses one or more external data sources to update existing rows in a Smartsheet with values determined by a lookup column in the sheet.
 
 ###Revision History
 
@@ -13,22 +13,22 @@ The Smartsheet Data Aggregator is an application that uses one or more external 
 
 ###Use Case
 
-Let’s assume your goal is to keep a sheet updated based on changes in two external CSV files - one from an employee directory and another from an issue tracking system. The Data Aggregator uses values from the sheet to search for matches in the given employees.csv and issues.csv files, and then maps the results with the columns in the sheet. 
+Let’s assume your goal is to keep a sheet updated based on changes in two external CSV files - one from an employee directory and another from an issue tracking system. The Data Tracker uses values from the sheet to search for matches in the given employees.csv and issues.csv files, and then maps the results with the columns in the sheet. 
 
-A simple example of this scenario is illustrated in the diagram below. The yellow indicates the lookup values (such as unique user or record IDs) which are expected by the Data Aggregator to be in your sheet, and are used to find matching records in the external system. The red indicates where the values from the matching records will be placed on the sheet.
+A simple example of this scenario is illustrated in the diagram below. The yellow indicates the lookup values (such as unique user or record IDs) which are expected by the Data Tracker to be in your sheet, and are used to find matching records in the external system. The red indicates where the values from the matching records will be placed on the sheet.
 
-![Data Aggregator Mappings Illustration](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/mappings4.png)
+![Data Tracker Mappings Illustration](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/mappings4.png)
 
 ###Smartsheet API
 
-The Smartsheet Data Aggregator utilizes the Smartsheet API, which provides a REST interface to Smartsheet features and data. The API enables Smartsheet customers to programmatically access and manage their data, and empowers application developers to build solutions on top of Smartsheet.
+The Smartsheet Data Tracker utilizes the Smartsheet API, which provides a REST interface to Smartsheet features and data. The API enables Smartsheet customers to programmatically access and manage their data, and empowers application developers to build solutions on top of Smartsheet.
 
 For more information about the Smartsheet API, please visit [the Smartsheet Developer Portal](http://www.smartsheet.com/developers) for full[ API Documentation](http://www.smartsheet.com/developers/api-documentation) and[ sample applications](https://www.smartsheet.com/developers/apps).
 
 
 ###Dependencies
 
-The Data Aggregator application was built and tested using Python 2.7.5, and depends on the libraries listed in the next section.
+The Data Tracker application was built and tested using Python 2.7.5, and depends on the libraries listed in the next section.
 
 **Requests** -- In addition to the standard Python libraries this application requires the "requests" library that is available at [http://docs.python-requests.org/en/latest/](http://docs.python-requests.org/en/latest/)
 
@@ -53,13 +53,13 @@ More information on python-ldap can be found at the project web site:  [http://p
 
 ##Installation
 
-The application runs locally on any system that can access the Smartsheet API. On a Unix/Linux based system a good place to install the dataAggregator folder is in the ‘/opt/’ directory. If that directory doesn’t already exist, create it with the following command in the command line: 
+The application runs locally on any system that can access the Smartsheet API. On a Unix/Linux based system a good place to install the dataTracker folder is in the ‘/opt/’ directory. If that directory doesn’t already exist, create it with the following command in the command line: 
 
 	sudo mkdir /opt
 
-Now place the dataAggregator directory in the ‘opt’ directory. 
+Now place the dataTracker directory in the ‘opt’ directory. 
 
-The dataAggregator directory includes:
+The dataTracker directory includes:
 
 * **main.py** -- primary application script. This is the main file that runs the application.
 * **app.json** -- configuration settings for the whole application
@@ -72,7 +72,7 @@ The dataAggregator directory includes:
 
 ##Configuration
 
-The Smartsheet Data Aggregator is configured by a series of JSON files: `app.json`, `mappings.json` and `sources.json`.
+The Smartsheet Data Tracker is configured by a series of JSON files: `app.json`, `mappings.json` and `sources.json`.
 
 ###app.json
 
@@ -98,7 +98,7 @@ Brief description of the attributes:
 
 ####Generate API Access Token
 
-For the Data Aggregator application to access Smartsheet, an API Access Token will need to be generated via your Smartsheet account. Please review the Smartsheet API documentation section on how to [generate a Smartsheet Access Token](http://www.google.com/url?q=http%3A%2F%2Fwww.smartsheet.com%2Fdevelopers%2Fapi-documentation%23h.5osh0dl59e5m&sa=D&sntz=1&usg=AFQjCNFv3Ithnb6Ghc_ynWko0jASYkGq3A).
+For the Data Tracker application to access Smartsheet, an API Access Token will need to be generated via your Smartsheet account. Please review the Smartsheet API documentation section on how to [generate a Smartsheet Access Token](http://www.google.com/url?q=http%3A%2F%2Fwww.smartsheet.com%2Fdevelopers%2Fapi-documentation%23h.5osh0dl59e5m&sa=D&sntz=1&usg=AFQjCNFv3Ithnb6Ghc_ynWko0jASYkGq3A).
 
 When the token is generated, copy and paste it into the app.json file as value for accessToken:
 
@@ -278,13 +278,13 @@ Now with everything configured, you can run the application with the following c
 
 ###Setup to Run on Schedule
 
-The Data Aggregator application can be configured to automatically run on a schedule,.  Please refer to your system documentation for details on how to setup a scheduled job.  Here is how to add Data Aggregator as a scheduled cron job on a UNIX/Linux system:
+The Data Tracker application can be configured to automatically run on a schedule,.  Please refer to your system documentation for details on how to setup a scheduled job.  Here is how to add Data Tracker as a scheduled cron job on a UNIX/Linux system:
 
 	sudo crontab -u root -e
 
 This opens a [VI style](http://www.cs.colostate.edu/helpdocs/vi.html) editor. In the editor, press ‘i’ to insert the new job. A common cron job that would run the application every day at 1am would look like this:
 
-	* 1 * * * python /opt/dataAggregator/main.py
+	* 1 * * * python /opt/dataTracker/main.py
 
 Each of the asterisks represents a unit of time.  Starting with the most left position
 

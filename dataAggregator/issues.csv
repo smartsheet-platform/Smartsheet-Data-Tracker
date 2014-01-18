@@ -1,9 +1,0 @@
-id,description,status
-a0001,"Running second export breaks the page","Closed","true"
-a0002,"Add auto-filtering to combo-box","Open","false"
-a0003,"Need graceful message when denied user access","Closed",TRUE
-a0004,"Add license statements","Open",done
-a0005,"Images need to be resized","In Progress","TRUE"
-a0006,"Add exception handling to admin area","Open",FALSE
-
-
