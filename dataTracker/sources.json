@@ -3,8 +3,8 @@
 		"sourceId": "deskAPI",
 		"connectorClassName": "RestGETDeskSource",
 		"apiUrl": "https://smartsheet.desk.com/api/v2/cases/{}",
-		"username": "scott.mcallister@smartsheet.com",
-		"password": "twinkiesafepotatoface",
+		"username": "yourUsername",
+		"password": "yourPassword",
 		"isArray": false,
 		"isStrict": false
 	},
