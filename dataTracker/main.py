@@ -147,10 +147,10 @@ def main():
 						# find lookup value match 
 						if cell['columnId'] == mappingSource['lookupMapping']['sheetColumnId']:
 
-							if 'value' in cell:
-								logger.info('Searching source for value: {}'.format(cell['value']))
+							if 'displayValue' in cell:
+								logger.info('Searching source for value: {}'.format(cell['displayValue']))
 								# sourceMatch is the source record with the matching lookup value
-								sourceMatch = currentSource['sourceObject'].findSourceMatch(cell['value'], mappingSource['lookupMapping']['sourceKey'])
+								sourceMatch = currentSource['sourceObject'].findSourceMatch(cell['displayValue'], mappingSource['lookupMapping']['sourceKey'])
 								
 								if len(sourceMatch):
 									logger.info('Match Found')
@@ -166,7 +166,7 @@ def main():
 											if str(error_message) == '\'sheetColumnId\'':
 												logger.warning('The {} was not set for the sheetColumn: {} in source: {}. Verify the sheetColumn value matches the column title in sheet: {}'.format(error_message,outputMap['sheetColumn'],mappingSource['sourceId'],theSheet['name']))
 											else:
-												logger.warning('The sourceKey of {} could not be found in the source {} for {}. {}'.format(outputMap['sourceKey'],mappingSource['sourceId'],cell['value'],error_message))
+												logger.warning('The sourceKey of {} could not be found in the source {} for {}. {}'.format(outputMap['sourceKey'],mappingSource['sourceId'],cell['displayValue'],error_message))
 								else:
 									logger.info('No Match')
 				if len(payload):

@@ -1,5 +1,36 @@
 [
 	{
+		"sheetId":  0000000000000000,
+		"sources": [			
+			{
+				"sourceId": "deskAPI",
+				"lookupMapping": {
+					"sourceKey": "id", 
+					"sheetColumn": "Case ID" 
+				},
+				"outputMappings": [
+					{
+						"sourceKey": "status",
+						"sheetColumn": "Status"
+					},
+					{
+						"sourceKey": "subject",
+						"sheetColumn": "Subject"
+					},
+					{
+						"sourceKey": "created_at",
+						"sheetColumn": "Created"
+					},
+					{
+						"sourceKey": "updated_at",
+						"sheetColumn": "Updated"
+					}				
+				]
+			}
+
+		]
+	},
+	{
 		"sheetId": 0000000000000000,
 		"sources": [			
 			{

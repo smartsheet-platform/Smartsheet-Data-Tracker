@@ -1,11 +1,20 @@
 [
 	{
+		"sourceId": "deskAPI",
+		"connectorClassName": "RestGETDeskSource",
+		"apiUrl": "https://smartsheet.desk.com/api/v2/cases/{}",
+		"username": "scott.mcallister@smartsheet.com",
+		"password": "twinkiesafepotatoface",
+		"isArray": false,
+		"isStrict": false
+	},
+	{
 		"sourceId": "markitOnDemandAPI",
 		"connectorClassName": "RestGETSource",
 		"apiUrl": "http://dev.markitondemand.com/Api/v2/Quote/json?symbol={}",
 		"isArray": false,
 		"isStrict": false
-	},	
+	},
 	{
 		"sourceId": "openldap",
 		"connectorClassName": "OpenLDAPSource",
