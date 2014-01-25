@@ -7,9 +7,9 @@ The Smartsheet Data Tracker is an application that uses one or more external dat
 
 ###Revision History
 
-2.2 - Jan 24, 2014. Added connector for getting issues from JIRA.
+2.2 - Jan 24, 2014. Added GET REST connector for JIRA Issues.
 
-2.1 - Jan 22, 2014. Added connector for getting cases from Desk.com.
+2.1 - Jan 22, 2014. Added GET REST connector for Desk.com Cases.
 
 2.0 - Jan 2, 2014. Added connectors for MySQL, OpenLDAP, and REST GET. Refactored  config files for better readability.
 
