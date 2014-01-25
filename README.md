@@ -7,7 +7,11 @@ The Smartsheet Data Tracker is an application that uses one or more external dat
 
 ###Revision History
 
-2.0 - Jan 2, 2014. Adding connectors for MySQL, OpenLDAP, and REST GET. Refactored  config files for better readability.
+2.2 - Jan 24, 2014. Added connector for getting issues from JIRA.
+
+2.1 - Jan 22, 2014. Added connector for getting cases from Desk.com.
+
+2.0 - Jan 2, 2014. Added connectors for MySQL, OpenLDAP, and REST GET. Refactored  config files for better readability.
 
 1.0 - Dec 5, 2013. Baseline application that works with CSV files. 
 
@@ -205,6 +209,75 @@ Brief description of each of the configuration settings:
 * **apiUrl** -- URL of API. The {} denotes where the lookup value will go inside of the URL.
 * **isArray** -- flag indicating whether the API response is an array
 * **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
+
+**REST Get Desk.com Cases**
+
+	{
+		"sourceId": "deskAPI",
+		"connectorClassName": "RestGETDeskSource",
+		"apiUrl": "https://yourOrg.desk.com/api/v2/cases/{}",
+		"username": "yourUsername",
+		"password": "yourPassword",
+		"isArray": false,
+		"isStrict": false
+	}
+Brief description of each of the configuration settings: 
+
+* **sourceId** -- a descriptive name that will help you identify the source
+* **connectorClassName** -- the class used to parse the source
+* **apiUrl** -- URL of API. The {} denotes where the lookup value will go inside of the URL.
+* **username** -- username for Desk.com
+* **password** -- password for Desk.com
+* **isArray** -- flag indicating whether the API response is an array
+* **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
+
+**REST Get JIRA Issues**
+	
+	{
+		"sourceId": "jiraAPI",
+		"connectorClassName": "RestGETJiraSource",
+		"apiUrl": "https://yourOrg.atlassian.net/rest/api/latest/issue/{}",
+		"username": "yourUsername",
+		"password": "yourPassword",
+		"isArray": false,
+		"isStrict": false
+	}
+Brief description of each of the configuration settings: 
+
+* **sourceId** -- a descriptive name that will help you identify the source
+* **connectorClassName** -- the class used to parse the source
+* **apiUrl** -- URL of API. The {} denotes where the lookup value will go inside of the URL.
+* **username** -- username for JIRA
+* **password** -- password for JIRA
+* **isArray** -- flag indicating whether the API response is an array
+* **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
+
+**Available JIRA fields (out of the box)**
+
+* assignee
+* assigneeEmail
+* created
+* creator
+* creatorEmail
+* description
+* dueDate
+* issueType
+* issueTypeDescription
+* lastViewed
+* priority
+* project
+* projectKey
+* progress
+* progressTotal
+* reporter
+* reporterEmail
+* resolution
+* status
+* summary
+* timeoriginalestimate
+* timeSpent
+* updated
+* votes
 
 **Other**
 

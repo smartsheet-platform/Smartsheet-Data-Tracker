@@ -115,6 +115,7 @@ class MySQLSource:
 		
 		return matchingRecord
 
+
 class OpenLDAPSource:
 
 	def __init__(self, sourceConfig):
@@ -257,4 +258,71 @@ class RestGETDeskSource:
 			for key,val in respJSON.items():
 				matchingRecord[key] = val
 
+		return matchingRecord
+
+class RestGETJiraSource:
+
+	def __init__(self, sourceConfig):
+		# authorize api connection
+		self.apiConfig = sourceConfig;
+
+		# Example REST GET Desk.com Configuration
+		# {
+		#	"sourceId": "deskAPI",
+		#	"connectorClassName": "RestGETDeskSource",
+		#	"apiUrl": "https://smartsheet-platform.atlassian.com/rest/api/latest/issue/{}",
+		#	"username": "yourUsername",
+		#	"password": "yourPassword",
+		#	"isArray": false,
+		#	"isStrict": false
+		# }
+		# 
+		# list required fields other than 'sourceId' and 'connectorClassName' from sourceConfig entry
+		# 'sourceId' and 'connectorClassName' are required for every source, and are already being checked
+		requiredFields = "apiUrl,username,password,isArray"
+		self.apiConfig = theConfig.validateSourceConfig(sourceConfig, logger, requiredFields)
+
+		return None
+
+	def findSourceMatch(self, lookupVal, lookupIndex):
+		matchingRecord = {}
+
+		# query API
+		try:
+			if self.apiConfig['username']:
+				params = None
+				resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal), params=params, auth=(self.apiConfig['username'], self.apiConfig['password']))
+		except KeyError:
+			resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal))
+		
+		respJSON = resp.json()
+
+		for key,val in respJSON['fields'].items():
+			if key == 'assignee' and val != None:
+				matchingRecord[key] = val['displayName']
+				matchingRecord['assigneeEmail'] = val['emailAddress']
+			elif key == 'creator':
+				matchingRecord[key] = val['displayName']
+				matchingRecord['creatorEmail'] = val['emailAddress']
+			elif key == 'issuetype':
+				matchingRecord[key] = val['name']
+				matchingRecord['issueTypeDescription'] = val['description']
+			elif key == 'reporter':
+				matchingRecord[key] = val['displayName']
+				matchingRecord['reporterEmail'] = val['emailAddress']
+			elif key == 'priority':
+				matchingRecord[key] = val['name']
+			elif key == 'progress':
+				matchingRecord[key] = val['progress']
+				matchingRecord['progressTotal'] = val['total']
+			elif key == 'project':
+				matchingRecord[key] = val['name']
+				matchingRecord['projectKey'] = val['key']
+			elif key == 'status':
+				matchingRecord[key] = val['name']
+			elif key == 'votes':
+				matchingRecord[key] = val['votes']
+			else:
+				matchingRecord[key] = val
+		
 		return matchingRecord

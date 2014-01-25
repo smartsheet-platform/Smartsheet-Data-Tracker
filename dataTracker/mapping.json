@@ -3,6 +3,50 @@
 		"sheetId":  0000000000000000,
 		"sources": [			
 			{
+				"sourceId": "jiraAPI",
+				"lookupMapping": {
+					"sourceKey": "key", 
+					"sheetColumn": "Issue ID" 
+				},
+				"outputMappings": [
+					{
+						"sourceKey": "status",
+						"sheetColumn": "Status"
+					},
+					{
+						"sourceKey": "summary",
+						"sheetColumn": "Subject"
+					},
+					{
+						"sourceKey": "votes",
+						"sheetColumn": "Votes"
+					},
+					{
+						"sourceKey": "updated",
+						"sheetColumn": "Updated"
+					},					
+					{
+						"sourceKey": "project",
+						"sheetColumn": "Project"
+					},
+					{
+						"sourceKey":"assignee",
+						"sheetColumn":"Assignee"
+					},					
+					{
+						"sourceKey":"issuetype",
+						"sheetColumn":"Type"
+					},			
+					{
+						"sourceKey":"assigneeEmail",
+						"sheetColumn":"Assignee Email"
+					}			
+				]
+	},	
+	{
+		"sheetId":  0000000000000000,
+		"sources": [			
+			{
 				"sourceId": "deskAPI",
 				"lookupMapping": {
 					"sourceKey": "id", 
