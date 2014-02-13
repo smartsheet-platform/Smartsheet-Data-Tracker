@@ -117,8 +117,8 @@ Brief description of the attributes:
 
 Next, you’ll need to configure the application to use your sources and map the values from those sources to the appropriate columns in a sheet.
 
-###Create a Source
-Now you'll need to create one or more sources that will update your sheet. Currently, the Smartsheet Data Tracker contains the following connectors to create a source:
+###Pick a Connector
+Now you'll need to pick a connector create a source that will update your sheet. Currently, the Smartsheet Data Tracker contains the following connectors to create a source:
  
 * [REST GET](#restGetSourceRef)
 * [REST GET Desk.com](#restGetDeskSourceRef)
@@ -130,7 +130,7 @@ Now you'll need to create one or more sources that will update your sheet. Curre
 You can also [create your own](#createOwnCon) connector.
  
 
-###Configure It
+###Configure Source
 Each source is configured in the `sources.json` file. The following are a couple of examples of typical source configurations using the [MySQL](#mysqlConRef) and the [REST GET Desk.com](#restGetDeskConRef) connectors:
 
 **MySQL**
