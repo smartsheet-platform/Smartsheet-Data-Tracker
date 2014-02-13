@@ -16,9 +16,10 @@
  ----------------------------------------------------------------------
 """
 
+from utils import config
+
 import requests
 import logging
-import config
 
 # debugging
 import pdb
@@ -43,7 +44,7 @@ class RestGETCon:
 		 Example REST GET Configuration
 		 {
 			"sourceId": "markitOnDemandAPI",
-			"connectorClassName": "RestGETSource",
+			"connectorClassName": "RestGETCon",
 			"apiUrl": "http://dev.markitondemand.com/Api/v2/Quote/json?symbol={}",
 			"isArray": false,
 			"isStrict": false

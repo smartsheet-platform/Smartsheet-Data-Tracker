@@ -16,9 +16,10 @@
  ----------------------------------------------------------------------
 """
 
+from utils import config
+
 import ldap
 import logging
-import config
 
 # debugging
 import pdb
@@ -41,7 +42,7 @@ class OpenLDAPCon:
 		 Example OpenLDAP Configuration
 		 {
 			"sourceId": "openldap",
-			"connectorClassName": "OpenLDAPSource",
+			"connectorClassName": "OpenLDAPCon",
 			"ldapServer": "127.0.0.1",
 			"baseDN": "dc=smartsheet,dc=com",
 			"orgUnit": "ou=people",

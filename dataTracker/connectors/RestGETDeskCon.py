@@ -15,10 +15,10 @@
   limitations under the License.             
  ----------------------------------------------------------------------
 """
+from utils import config
 
 import requests
 import logging
-import config
 
 # debugging
 import pdb
@@ -43,8 +43,8 @@ class RestGETDeskCon:
 		 Example REST GET Desk.com Configuration
 		 {
 			"sourceId": "deskAPI",
-			"connectorClassName": "RestGETDeskSource",
-			"apiUrl": "https://smartsheet.desk.com/api/v2/cases/{}",
+			"connectorClassName": "RestGETDeskCon",
+			"apiUrl": "https://yourOrg.desk.com/api/v2/cases/{}",
 			"username": "yourUsername",
 			"password": "yourPassword",
 			"isArray": false,

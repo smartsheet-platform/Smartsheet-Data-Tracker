@@ -16,9 +16,10 @@
  ----------------------------------------------------------------------
 """
 
+from utils import config
+
 import requests
 import logging
-import config
 import re
 
 # debugging
@@ -30,21 +31,17 @@ theConfig = config.Config()
 appConfig = theConfig.getConfigFromFile("app.json")
 logger = theConfig.getLogger(appConfig)
 
-#class Sources:
-#	def __init__(self):
-#		return self
-
 class RestGETJiraCon:
 	def __init__(self, sourceConfig):
 		# authorize api connection
 		self.apiConfig = sourceConfig;
 
 		"""
-		 Example REST GET Jira Search Configuration
+		 Example REST GET JIRA Search Configuration
 		 {
 			"sourceId": "jiraAPI",
-			"connectorClassName": "RestGETJiraSearchSource",
-			"apiUrl": "https://smartsheet-platform.atlassian.net/rest/api/latest/search?jql={}~\"{}\"",
+			"connectorClassName": "RestGETJiraSearchCon",
+			"apiUrl": "https://yourOrg.atlassian.net/rest/api/latest/search?jql={}~\"{}\"",
 			"username": "yourName",
 			"password": "yourPassword",
 			"isArray": true,

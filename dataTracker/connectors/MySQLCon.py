@@ -16,9 +16,10 @@
  ----------------------------------------------------------------------
 """
 
+from utils import config
+
 import MySQLdb
 import logging
-import config
 
 # debugging
 import pdb
@@ -41,7 +42,7 @@ class MySQLCon:
 		 Example MySQL Configuration
 		 {
 			"sourceId": "productDB",
-			"connectorClassName": "MySQLSource",
+			"connectorClassName": "MySQLCon",
 			"dbServer": "localhost",
 			"dbUser": "root",
 			"dbPassword": "root",

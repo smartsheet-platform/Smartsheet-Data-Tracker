@@ -1,7 +1,7 @@
 [
 	{
 		"sourceId": "deskAPI",
-		"connectorClassName": "RestGETDeskSource",	
+		"connectorClassName": "RestGETDeskCon",	
 		"apiUrl": "https://yourOrg.desk.com/api/v2/cases/{}",
 		"username": "yourUsername",
 		"password": "yourPassword",
@@ -10,7 +10,7 @@
 	},
 	{
 		"sourceId": "jiraIssueAPI",
-		"connectorClassName": "RestGETJiraSource",
+		"connectorClassName": "RestGETJiraCon",
 		"apiUrl": "https://yourOrg.atlassian.net/rest/api/latest/issue/{}",
 		"username": "yourUsername",
 		"password": "yourPassword",
@@ -20,7 +20,7 @@
 	},
 	{
 		"sourceId": "jiraSearchAPI",
-		"connectorClassName": "RestGETJiraSource",
+		"connectorClassName": "RestGETJiraCon",
 		"apiUrl": "https://smartsheet-platform.atlassian.net/rest/api/latest/search?jql={}~\"{}\"",
 		"username": "yourUsername",
 		"password": "yourPassword",
@@ -30,14 +30,14 @@
 	},	
 	{
 		"sourceId": "markitOnDemandAPI",
-		"connectorClassName": "RestGETSource",
+		"connectorClassName": "RestGETCon",
 		"apiUrl": "http://dev.markitondemand.com/Api/v2/Quote/json?symbol={}",
 		"isArray": false,
 		"isStrict": false
 	},
 	{
 		"sourceId": "openldap",
-		"connectorClassName": "OpenLDAPSource",
+		"connectorClassName": "OpenLDAPCon",
 		"ldapServer": "127.0.0.1",
 		"baseDN": "dc=smartsheet,dc=com",
 		"orgUnit": "ou=people",
@@ -50,7 +50,7 @@
 	},
 	{
 		"sourceId": "productDB",
-		"connectorClassName": "MySQLSource",
+		"connectorClassName": "MySQLCon",
 		"dbServer": "localhost",
 		"dbUser": "root",
 		"dbPassword": "root",
@@ -60,13 +60,13 @@
 	},	
 	{
 		"sourceId": "issues",
-		"connectorClassName": "CSVSource",
+		"connectorClassName": "CSVCon",
 		"fileName": "issues.csv",
 		"isStrict": false
 	},			
 	{
 		"sourceId": "employees",
-		"connectorClassName": "CSVSource",
+		"connectorClassName": "CSVCon",
 		"fileName": "employees.csv",
 		"isStrict": false
 	}

@@ -25,11 +25,12 @@
  python-ldap ( http://python-ldap.org/ )
 """
 
+from utils import config
+from utils import match
+
 import requests
 import json
 import os
-import config
-import match
 import sys
 import logging
 import datetime
@@ -42,7 +43,7 @@ def main():
 	theMatch = match.Match()
 
 	# read app config
-	appConfig = theConfig.getConfigFromFile('app.json')
+	appConfig = theConfig.getConfigFromFile('app-dev.json')
 	logger = theConfig.getLogger(appConfig)
 
 	logger.info('***Smartsheet Data Tracker Utility Started: {}'.format(str(datetime.datetime.now()).split('.')[0]))
@@ -50,14 +51,14 @@ def main():
 	ACCESS_TOKEN = 'Bearer ' + appConfig['accessToken']
 	headers = {'Authorization': ACCESS_TOKEN}
 
-
-	# read sources config
-	# array of sources
-	# 	sourceId
-	#	connectorClassName
-	#	sourceObject
-	# 	...other custom attributes
-	#
+	"""
+	 read sources config
+	 array of sources
+	 	sourceId
+		connectorClassName
+		sourceObject
+	 	...other custom attributes
+	"""
 	sourceConfigs = theConfig.getConfigFromFile('sources-dev.json')
 
 	# loop source configs and initialize sourceConfig objects
@@ -74,13 +75,14 @@ def main():
 		logger.error('There are no sources configured. Please add a properly formatted source node to the sources.json file.')
 		theConfig.endBadly()
 
-	# loop those mappings
-	# read mapping config
-	# 	sheetId
-	# 	sources
-	# 	lookupMapping {sourceKey, sheetColumn}
-	# 	outputMappings {sourceKey, sheetColumn}
-	#
+	"""
+	 loop those mappings
+	 read mapping config
+	 	sheetId
+	 	sources
+	 	lookupMapping {sourceKey, sheetColumn}
+	 	outputMappings {sourceKey, sheetColumn}
+	"""
 	mappings = theConfig.getConfigFromFile('mapping-dev.json')
 
 	# validate mapping configs
@@ -132,8 +134,7 @@ def main():
 					theConfig.endBadly()
 
 				for outM in mappingSource['outputMappings']:
-					# temporary
-					# logger.info('outM: {}'.format(outM))
+
 					if 'sheetColumnId' not in outM:
 						logger.warning('Output column {} not found in sheet {}'.format(outM['sheetColumn'], theSheet['name']))
 			

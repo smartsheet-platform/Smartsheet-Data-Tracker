@@ -15,11 +15,11 @@
   limitations under the License.             
  ----------------------------------------------------------------------
 """
+from utils import config
 
 import os
 import csv
 import logging
-import config
 
 # debugging
 import pdb
@@ -43,7 +43,7 @@ class CSVCon:
 		 Example CSV Configuration
 		 {
 			"sourceId": "employees",
-			"connectorClassName": "CSVSource",
+			"connectorClassName": "CSVCon",
 			"fileName": "employees.csv",
 			"isStrict": false
 		 }
