@@ -78,9 +78,12 @@ The dataTracker directory includes:
 	* **RestGETCon.py** -- Python class file that houses generic REST GET external connector
 	* **RestGETDeskCon.py** -- Python class file that houses Desk.com REST GET external connector
 	* **RestGETJiraCon.py** -- Python class file that houses Jira REST GET external connector
-* **config.py** -- a utility class that deals with app configurations
-* **employees.csv** -- example CSV source file
-* **issues.csv** -- example CSV source file
+* **utils directory**
+	* **config.py** -- a utility class that deals with app configurations
+	* **match.py** -- a utility class that processes matches and prepares them to send to Smartsheet API 
+* **sampleData directory**
+	* **employees.csv** -- example CSV source file
+	* **issues.csv** -- example CSV source file
 
 ##Configuration
 
@@ -463,6 +466,7 @@ assigneeDisplayname, assigneeEmailaddress, created, creatorName, creatorEmail, d
 
 For a [full list of fields](https://docs.atlassian.com/jira/REST/latest/#d2e2892) available from the JIRA API, please refer to the [JIRA API documentation](https://docs.atlassian.com/jira/REST/latest/#d2e2892).
 
+<a href name="createOwnCon"></a>
 ###Create Your Own
 Additional connectors can be created to support any data source, public or private. To create a new connector create a connector Python module in the `connectors` directory.  The connector class should follow the same structure as the other connector classes. Namely, the new class should include the following function signatures:
 
