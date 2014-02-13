@@ -1,5 +1,5 @@
 {
-	"accessToken": "54lvf438c959rdzu4qg8dszrw6",
+	"accessToken": "",
 	"apiURL": "https://api.smartsheet.com/1.1",
 	"logLevel": "logging.WARNING",
 	"logFileName": "dougFir.log",
