@@ -1,0 +1,73 @@
+[
+	{
+		"sourceId": "deskAPI",
+		"connectorClassName": "RestGETDeskSource",	
+		"apiUrl": "https://yourOrg.desk.com/api/v2/cases/{}",
+		"username": "yourUsername",
+		"password": "yourPassword",
+		"isArray": false,
+		"isStrict": false
+	},
+	{
+		"sourceId": "jiraIssueAPI",
+		"connectorClassName": "RestGETJiraSource",
+		"apiUrl": "https://yourOrg.atlassian.net/rest/api/latest/issue/{}",
+		"username": "yourUsername",
+		"password": "yourPassword",
+		"isArray": false,
+		"isStrict": false,
+		"isSearch": false
+	},
+	{
+		"sourceId": "jiraSearchAPI",
+		"connectorClassName": "RestGETJiraSource",
+		"apiUrl": "https://smartsheet-platform.atlassian.net/rest/api/latest/search?jql={}~\"{}\"",
+		"username": "yourUsername",
+		"password": "yourPassword",
+		"isArray": true,
+		"isStrict": false,
+		"isSearch": true
+	},	
+	{
+		"sourceId": "markitOnDemandAPI",
+		"connectorClassName": "RestGETSource",
+		"apiUrl": "http://dev.markitondemand.com/Api/v2/Quote/json?symbol={}",
+		"isArray": false,
+		"isStrict": false
+	},
+	{
+		"sourceId": "openldap",
+		"connectorClassName": "OpenLDAPSource",
+		"ldapServer": "127.0.0.1",
+		"baseDN": "dc=smartsheet,dc=com",
+		"orgUnit": "ou=people",
+		"adminUser": "cn=admin",
+		"adminPass": "smart",
+		"searchFilter": "cn=*{}*",
+		"retrieveAttributes": "givenName,sn,roomNumber,mail,telephoneNumber",
+		"ldapTimeout": 0,
+		"isStrict": false
+	},
+	{
+		"sourceId": "productDB",
+		"connectorClassName": "MySQLSource",
+		"dbServer": "localhost",
+		"dbUser": "root",
+		"dbPassword": "root",
+		"dbName": "dvDB",
+		"lookupQuery": "SELECT sku,name,description,price,quantity FROM product WHERE sku = %s",
+		"isStrict": false
+	},	
+	{
+		"sourceId": "issues",
+		"connectorClassName": "CSVSource",
+		"fileName": "issues.csv",
+		"isStrict": false
+	},			
+	{
+		"sourceId": "employees",
+		"connectorClassName": "CSVSource",
+		"fileName": "employees.csv",
+		"isStrict": false
+	}
+]

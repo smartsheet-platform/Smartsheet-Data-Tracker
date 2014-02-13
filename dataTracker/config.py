@@ -22,6 +22,8 @@ import sys
 
 class Config:
 	def __init__(self):
+		loggers = {}
+
 		return None
 
 	def endBadly(self):
@@ -32,7 +34,7 @@ class Config:
 		config = []
 
 		try:
-			with open(os.path.dirname(os.path.realpath(__file__)) + "/" + fileName) as theFile:
+			with open(os.getcwd() + "/settings/" + fileName) as theFile:
 				config = json.load(theFile)
 		except ValueError as e:
 			print "Uh oh. The following problem occured while trying to read {}: {}".format(fileName,e)
@@ -40,17 +42,23 @@ class Config:
 		return config
 
 	def getLogger(self, appConfig):
+		global loggers
+
 		# configure and return logging object
 		logger = logging.getLogger(__name__)
-		logger.setLevel(eval(appConfig["logLevel"]))
+		
+		# add logging handler if one doesn't already exist, otherwise just send back logger obj
+		# this reduces duplicate entries in log
+		if not len(logger.handlers):
+			logger.setLevel(eval(appConfig["logLevel"]))
 
-		handler = logging.handlers.RotatingFileHandler(appConfig["logFileName"],mode='a',maxBytes=appConfig['logFileMaxBytes'],backupCount=appConfig['logFileBackupCount'])
-		handler.setLevel(eval(appConfig["logLevel"]))
+			handler = logging.handlers.RotatingFileHandler(appConfig["logFileName"],mode='a',maxBytes=appConfig['logFileMaxBytes'],backupCount=appConfig['logFileBackupCount'])
+			handler.setLevel(eval(appConfig["logLevel"]))
 
-		formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-		handler.setFormatter(formatter)
+			formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+			handler.setFormatter(formatter)
 
-		logger.addHandler(handler)
+			logger.addHandler(handler)
 
 		return logger
 
@@ -76,8 +84,10 @@ class Config:
 							theLogger.error("Mapping with sheetId {} does not have a lookupMapping. Each mapping needs a lookupMapping.".format(mapping['sheetId']))
 							self.endBadly()
 						else:
-							# validate mapping
-							self.validateMapping(source["lookupMapping"], theLogger, source["sourceId"], "lookup")
+							if ('lookupByRowId' not in source['lookupMapping']) or ('lookupByRowId' in source['lookupMapping'] and source['lookupMapping']['lookupByRowId'] == False):
+								theLogger.info(source['lookupMapping'])
+								# validate mapping
+								self.validateMapping(source["lookupMapping"], theLogger, source["sourceId"], "lookup")
 
 						# check outputMappings
 						if len(source["outputMappings"]) == 0:
