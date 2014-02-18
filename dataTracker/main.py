@@ -43,7 +43,7 @@ def main():
 	theMatch = match.Match()
 
 	# read app config
-	appConfig = theConfig.getConfigFromFile('app-dev.json')
+	appConfig = theConfig.getConfigFromFile('app.json')
 	logger = theConfig.getLogger(appConfig)
 
 	logger.info('***Smartsheet Data Tracker Utility Started: {}'.format(str(datetime.datetime.now()).split('.')[0]))
@@ -59,7 +59,7 @@ def main():
 		sourceObject
 	 	...other custom attributes
 	"""
-	sourceConfigs = theConfig.getConfigFromFile('sources-dev.json')
+	sourceConfigs = theConfig.getConfigFromFile('sources.json')
 
 	# loop source configs and initialize sourceConfig objects
 	if len(sourceConfigs):
@@ -83,7 +83,7 @@ def main():
 	 	lookupMapping {sourceKey, sheetColumn}
 	 	outputMappings {sourceKey, sheetColumn}
 	"""
-	mappings = theConfig.getConfigFromFile('mapping-dev.json')
+	mappings = theConfig.getConfigFromFile('mapping.json')
 
 	# validate mapping configs
 	theConfig.validateMappingConfig(mappings, logger)
