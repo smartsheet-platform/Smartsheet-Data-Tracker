@@ -40,7 +40,7 @@ class RestGETDeskCon:
 		self.apiConfig = sourceConfig;
 
 		"""
-		 Example REST GET Desk.com Configuration
+		 Example REST GET Desk.com Configuration ( to be set in the settings/sources.json file )
 		 {
 			"sourceId": "deskAPI",
 			"connectorClassName": "RestGETDeskCon",

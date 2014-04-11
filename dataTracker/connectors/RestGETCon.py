@@ -41,7 +41,7 @@ class RestGETCon:
 		self.apiConfig = sourceConfig;
 
 		"""
-		 Example REST GET Configuration
+		 Example REST GET Configuration ( to be set in the settings/sources.json file )
 		 {
 			"sourceId": "markitOnDemandAPI",
 			"connectorClassName": "RestGETCon",

@@ -39,7 +39,7 @@ class OpenLDAPCon:
 	def __init__(self, sourceConfig):
 		
 		"""
-		 Example OpenLDAP Configuration
+		 Example OpenLDAP Configuration ( to be set in the settings/sources.json file )
 		 {
 			"sourceId": "openldap",
 			"connectorClassName": "OpenLDAPCon",
