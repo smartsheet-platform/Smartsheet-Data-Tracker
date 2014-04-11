@@ -30,17 +30,13 @@ theConfig = config.Config()
 appConfig = theConfig.getConfigFromFile("app.json")
 logger = theConfig.getLogger(appConfig)
 
-#class Sources:
-#	def __init__(self):
-#		return self
-
 class CSVCon:
 
 	def __init__(self, sourceConfig):
 		self.csvData = []
 
 		"""
-		 Example CSV Configuration
+		 Example CSV Configuration ( to be set in the settings/sources.json file )
 		 {
 			"sourceId": "employees",
 			"connectorClassName": "CSVCon",

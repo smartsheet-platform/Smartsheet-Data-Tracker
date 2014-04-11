@@ -37,7 +37,7 @@ class RestGETJiraCon:
 		self.apiConfig = sourceConfig;
 
 		"""
-		 Example REST GET JIRA Search Configuration
+		 Example REST GET JIRA Search Configuration ( to be set in the settings/sources.json file )
 		 {
 			"sourceId": "jiraAPI",
 			"connectorClassName": "RestGETJiraSearchCon",

@@ -39,7 +39,7 @@ class MySQLCon:
 	def __init__(self, sourceConfig):
 
 		"""
-		 Example MySQL Configuration
+		 Example MySQL Configuration ( to be set in the settings/sources.json file )
 		 {
 			"sourceId": "productDB",
 			"connectorClassName": "MySQLCon",
