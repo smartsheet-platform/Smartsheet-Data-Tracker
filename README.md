@@ -7,7 +7,7 @@ The Smartsheet Data Tracker is an application that uses one or more external dat
 
 ###Revision History
 
-2.3 - Feb 12, 2014. Added to Jira connector to support searching of custom fields, allowing search by sheet row ID. Restructured connector classes to give each connector its own file. 
+2.3 - Feb 12, 2014. Enhanced Jira connector to support searching of custom fields, allowing search by sheet row ID. Restructured connector classes to give each connector its own file. 
 
 2.2 - Jan 24, 2014. Added GET REST connector for Jira Issues.
 
