@@ -1,10 +1,3 @@
-mapping-dev.json
-mapping-dev-one.json
-mapping-dev-demo.json
-sources-dev.json
-sources-dev-one.json
-sources-dev-demo.json
-app-dev.json
 *.pyc
 .DS_Store
 
