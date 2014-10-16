@@ -7,19 +7,19 @@
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-  
+
     http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and       
-  limitations under the License.             
+  See the License for the specific language governing permissions and
+  limitations under the License.
  ----------------------------------------------------------------------
 
 
  written and tested with Python 2.7.5
- depencies to install: 
+ depencies to install:
  requests ( http://docs.python-requests.org/en/latest/ )
  mysql-python ( http://mysql-python.sourceforge.net/ )
  python-ldap ( http://python-ldap.org/ )
@@ -41,9 +41,13 @@ import pdb
 def main():
 	theConfig = config.Config()
 	theMatch = match.Match()
+	# file names for the json config files in settings directory
+	APP_CONFIG_FILE = 'app.json'
+	SOURCES_FILE = 'sources.json'
+	MAPPINGS_FILE = 'mapping.json'
 
 	# read app config
-	appConfig = theConfig.getConfigFromFile('app.json')
+	appConfig = theConfig.getConfigFromFile(APP_CONFIG_FILE)
 	logger = theConfig.getLogger(appConfig)
 
 	logger.info('***Smartsheet Data Tracker Utility Started: {}'.format(str(datetime.datetime.now()).split('.')[0]))
@@ -59,7 +63,7 @@ def main():
 		sourceObject
 	 	...other custom attributes
 	"""
-	sourceConfigs = theConfig.getConfigFromFile('sources.json')
+	sourceConfigs = theConfig.getConfigFromFile(SOURCES_FILE)
 
 	# loop source configs and initialize sourceConfig objects
 	if len(sourceConfigs):
@@ -83,7 +87,7 @@ def main():
 	 	lookupMapping {sourceKey, sheetColumn}
 	 	outputMappings {sourceKey, sheetColumn}
 	"""
-	mappings = theConfig.getConfigFromFile('mapping.json')
+	mappings = theConfig.getConfigFromFile(MAPPINGS_FILE)
 
 	# validate mapping configs
 	theConfig.validateMappingConfig(mappings, logger)
@@ -99,13 +103,13 @@ def main():
 			# get sheet
 			getSheetUrl = API_URL + "/sheet/" + str(mapping['sheetId'])
 			getSheetResponse = requests.get(getSheetUrl, headers=headers)
-			
+			logger.info(getSheetResponse.status_code)
 			if getSheetResponse.status_code == 200:
 				theSheet = getSheetResponse.json()
 			else:
 				logger.debug('There was a problem getting sheet {}. '.format(mapping['sheetId']))
 				logger.debug('API Response Status Code: {}'.format(getSheetResponse.status_code))
-				
+
 				if getSheetResponse.status_code == 403:
 					logger.debug('Access forbidden. Probably forgot to add your API Access Token to main.py')
 				elif getSheetResponse.status_code == 404:
@@ -118,7 +122,7 @@ def main():
 			for mappingSource in mapping['sources']:
 				# loop over all columns in sheet
 				for col in theSheet['columns']:
-					
+
 
 					# check if column is lookup column
 					if 'sheetColumn' in mappingSource['lookupMapping'] and mappingSource['lookupMapping']['sheetColumn'] == col['title'] :
@@ -128,7 +132,7 @@ def main():
 						for outMap in mappingSource['outputMappings']:
 							if outMap['sheetColumn'] == col['title']:
 								outMap['sheetColumnId'] = col['id']
-						
+
 				if 'sheetColumnId' not in mappingSource['lookupMapping'] and 'sheetColumn' in mappingSource['lookupMapping']:
 					logger.error('Lookup column {} not found in sheet {}'.format(mappingSource['lookupMapping']['sheetColumn'], theSheet['name']))
 					theConfig.endBadly()
@@ -137,7 +141,7 @@ def main():
 
 					if 'sheetColumnId' not in outM:
 						logger.warning('Output column {} not found in sheet {}'.format(outM['sheetColumn'], theSheet['name']))
-			
+			logger.info("")
 			for sheetRow in theSheet['rows']:
 				sourceMatch = [] # init sourceMatch
 				payload = [] # init payload
@@ -146,7 +150,7 @@ def main():
 				for mappingSource in mapping['sources']:
 					logger.info('Source: {}'.format(mappingSource['sourceId']))
 
-					for source in sourceConfigs: 
+					for source in sourceConfigs:
 						if source['sourceId'] == mappingSource['sourceId']:
 							currentSource = source
 							break
@@ -155,25 +159,26 @@ def main():
 						payload.extend(theMatch.findMatch(sheetRow['id'], theSheet['name'], currentSource, mappingSource, mappingSource['lookupMapping']['sourceKey'], logger))
 					else:
 						for cell in sheetRow['cells']:
-							# find lookup value match 
+							# find lookup value match
 							if cell['columnId'] == mappingSource['lookupMapping']['sheetColumnId']:
 
 								if 'displayValue' in cell:
 									payload.extend(theMatch.findMatch(cell['displayValue'], theSheet['name'], currentSource, mappingSource, mappingSource['lookupMapping']['sourceKey'], logger))
+				logger.info(payload)
 				if len(payload):
 
 					# send update to smartsheet for each row
 					updateResponse = requests.put(updateRowUrl, data=json.dumps(payload), headers=headers)
-					
+
 					# output api response
 					if updateResponse.status_code == 200:
 						logger.info('Sheet {} Updated'.format(theSheet['name']))
 					else:
-						logger.warning('updateResponse: {}'.format(updateResponse))
+						logger.warning('updateResponse: {}'.format(updateResponse.text))
 
 		logger.info('===Smartsheet Data Tracker Utility Completed: {}'.format(str(datetime.datetime.now()).split('.')[0]))
 	else:
 		logger.error('There are no mappings configured. Please add a properly formatted mapping node to the mapping.json file.')
 
 if __name__ == '__main__':
-	main()	
+	main()

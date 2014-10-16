@@ -1,18 +1,18 @@
 """
  ----------------------------------------------------------------------
    Copyright 2014 Smartsheet, Inc.
-  
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-  
+
     http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and       
-  limitations under the License.             
+  See the License for the specific language governing permissions and
+  limitations under the License.
  ----------------------------------------------------------------------
 """
 
@@ -47,7 +47,7 @@ class RestGETJiraCon:
 			"isArray": true,
 			"isStrict": false
 		 },
-		 
+
 		 list required fields other than 'sourceId' and 'connectorClassName' from sourceConfig entry
 		 'sourceId' and 'connectorClassName' are required for every source, and are already being checked
 		"""
@@ -58,23 +58,21 @@ class RestGETJiraCon:
 
 	def findSourceMatch(self, lookupVal, lookupKey):
 		matchingRecord = {}
-	
+
 		# query API
 		try:
 			if self.apiConfig['username']:
 				params = None
-				
-				#if 'isSearch' in self.apiConfig and self.apiConfig['isSearch'] == True: 
 				args = len(tuple(re.finditer("{}", self.apiConfig['apiUrl'])))
-				if args == 2:	
+				if args == 2:
 					resp = requests.get(self.apiConfig['apiUrl'].format(lookupKey,lookupVal), params=params, auth=(self.apiConfig['username'], self.apiConfig['password']))
 				else:
 					resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal), params=params, auth=(self.apiConfig['username'], self.apiConfig['password']))
 		except KeyError:
 			resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal))
-		
-		respJSON = resp.json()
 
+		respJSON = resp.json()
+		
 		try:
 			if self.apiConfig['isArray']:
 				if len(respJSON['issues']) > 0:
@@ -85,11 +83,10 @@ class RestGETJiraCon:
 
 		except KeyError, error_message:
 			logger.error("No Match for : {} ".format(self.apiConfig['apiUrl'].format(lookupVal)))
-		
+
 		return matchingRecord
-	
+
 	def parseJiraFields(self,response,key='',path='',flattened=None):
-		
 		if flattened is None:
 			flattened = {}
 		if type(response) not in(dict, list):
@@ -100,5 +97,4 @@ class RestGETJiraCon:
 		else:
 			for new_key, value in response.items():
 				self.parseJiraFields(value, new_key, path + (key.capitalize()) if path and type(key) is not int else str(key), flattened)
-
 		return flattened
