@@ -103,17 +103,17 @@ def main():
 			# get sheet
 			getSheetUrl = API_URL + "/sheet/" + str(mapping['sheetId'])
 			getSheetResponse = requests.get(getSheetUrl, headers=headers)
-			logger.info(getSheetResponse.status_code)
-			if getSheetResponse.status_code == 200:
+			logger.info('get sheet response for {}: {}'.format(str(mapping['sheetId']), getSheetResponse.status_code))
+            		if getSheetResponse.status_code == 200:
 				theSheet = getSheetResponse.json()
 			else:
-				logger.debug('There was a problem getting sheet {}. '.format(mapping['sheetId']))
-				logger.debug('API Response Status Code: {}'.format(getSheetResponse.status_code))
+				logger.error('There was a problem getting sheet {}. '.format(mapping['sheetId']))
+				logger.error('API Response Status Code: {}'.format(getSheetResponse.status_code))
 
 				if getSheetResponse.status_code == 403:
-					logger.debug('Access forbidden. Probably forgot to add your API Access Token to main.py')
+					logger.error('Access forbidden. Probably forgot to add your API Access Token to main.py')
 				elif getSheetResponse.status_code == 404:
-					logger.debug('Sheet not found. Make sure the sheetId value in mapping.json is correct.')
+					logger.error('Sheet not found. Make sure the sheetId value in mapping.json is correct.')
 				break
 
 			logger.info('Updating sheet: {}'.format(theSheet['name']))
