@@ -65,7 +65,7 @@ class CSVCon:
 		# query csv file
 		for sourceRow in self.csvData:
 			if len(sourceRow):
-				if sourceRow[lookupKey] == lookupVal:
+				if sourceRow[lookupKey].strip() == lookupVal:
 					matchingRow = sourceRow
 					break
 
