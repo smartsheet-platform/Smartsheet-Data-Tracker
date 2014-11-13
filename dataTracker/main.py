@@ -34,6 +34,7 @@ import os
 import sys
 import logging
 import datetime
+import time
 
 # debugging
 import pdb
@@ -144,8 +145,8 @@ def main():
 			logger.info("")
 			for sheetRow in theSheet['rows']:
 				sourceMatch = [] # init sourceMatch
-				payload = [] # init payload
-				updateRowUrl = API_URL + '/row/' + str(sheetRow['id']) + '/cells'
+				cellsPayload = [] # init payload
+				updateRowUrl = getSheetUrl + '/row/' + str(sheetRow['id']) 
 
 				for mappingSource in mapping['sources']:
 					logger.info('Source: {}'.format(mappingSource['sourceId']))
@@ -156,29 +157,55 @@ def main():
 							break
 					if 'lookupByRowId' in mappingSource['lookupMapping'] and mappingSource['lookupMapping']['lookupByRowId'] == True:
 						# lookup by rowId
-						payload.extend(theMatch.findMatch(sheetRow['id'], theSheet['name'], currentSource, mappingSource, mappingSource['lookupMapping']['sourceKey'], logger))
+						cellsPayload.extend(theMatch.findMatch(sheetRow['id'], theSheet['name'], currentSource, mappingSource, mappingSource['lookupMapping']['sourceKey'], logger))
 					else:
 						for cell in sheetRow['cells']:
 							# find lookup value match
 							if cell['columnId'] == mappingSource['lookupMapping']['sheetColumnId']:
 
 								if 'displayValue' in cell:
-									payload.extend(theMatch.findMatch(cell['displayValue'], theSheet['name'], currentSource, mappingSource, mappingSource['lookupMapping']['sourceKey'], logger))
-				logger.info(payload)
-				if len(payload):
-
-					# send update to smartsheet for each row
-					updateResponse = requests.put(updateRowUrl, data=json.dumps(payload), headers=headers)
-
+									cellsPayload.extend(theMatch.findMatch(cell['displayValue'], theSheet['name'], currentSource, mappingSource, mappingSource['lookupMapping']['sourceKey'], logger))
+				
+				if len(cellsPayload):
+					payload = { 'cells': cellsPayload }
+					attempt = 0
+					updateResponse = sendUpdate(updateRowUrl, data=json.dumps(payload), headers=headers, attempt=attempt)
+					print updateResponse
 					# output api response
-					if updateResponse.status_code == 200:
-						logger.info('Sheet {} Updated'.format(theSheet['name']))
-					else:
-						logger.warning('updateResponse: {}'.format(updateResponse.text))
+					try:
+						if updateResponse.status_code == 200:
+							logger.info('Sheet {} Updated'.format(theSheet['name']))
+						else:
+							logger.warning('updateResponse: {}'.format(updateResponse.text))
+					except AttributeError:
+						logger.error(updateResponse)
 
 		logger.info('===Smartsheet Data Tracker Utility Completed: {}'.format(str(datetime.datetime.now()).split('.')[0]))
 	else:
 		logger.error('There are no mappings configured. Please add a properly formatted mapping node to the mapping.json file.')
+
+def sendUpdate(updateUrl, data, headers, attempt):
+	try:
+		# send update to smartsheet for each row
+		updateResponse = requests.put(updateUrl, data=data, headers=headers)
+	except requests.exceptions.ConnectionError, error_message:
+		time.sleep(3)
+		# send update to smartsheet for each row
+		updateResponse = sendUpdateRetry(updateUrl, data, headers, attempt, error_message)
+	return updateResponse
+
+def sendUpdateRetry(updateUrl, payload, headers, attempt, exception):
+	maxAttempts = 3
+	response = {}
+
+	print 'updateRetry'
+	if attempt < maxAttempts:
+		attempt = attempt + 1
+		response = sendUpdate(updateUrl, payload, headers, attempt)
+	else:
+		response = exception
+	return response
+
 
 if __name__ == '__main__':
 	main()
