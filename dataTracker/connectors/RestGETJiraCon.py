@@ -72,7 +72,6 @@ class RestGETJiraCon:
 			resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal))
 
 		respJSON = resp.json()
-		
 		try:
 			if self.apiConfig['isArray']:
 				if len(respJSON['issues']) > 0:

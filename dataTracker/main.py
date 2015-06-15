@@ -43,9 +43,9 @@ def main():
 	theConfig = config.Config()
 	theMatch = match.Match()
 	# file names for the json config files in settings directory
-	APP_CONFIG_FILE = 'app.json'
-	SOURCES_FILE = 'sources.json'
-	MAPPINGS_FILE = 'mapping.json'
+	APP_CONFIG_FILE = 'app-dev.json'
+	SOURCES_FILE = 'sources-jira-demo.json'
+	MAPPINGS_FILE = 'mapping-jira-demo.json'
 
 	# read app config
 	appConfig = theConfig.getConfigFromFile(APP_CONFIG_FILE)
@@ -170,7 +170,6 @@ def main():
 					payload = { 'cells': cellsPayload }
 					attempt = 0
 					updateResponse = sendUpdate(updateRowUrl, data=json.dumps(payload), headers=headers, attempt=attempt)
-					print updateResponse
 					# output api response
 					try:
 						if updateResponse.status_code == 200:

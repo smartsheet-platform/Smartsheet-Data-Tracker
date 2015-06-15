@@ -139,24 +139,24 @@ class Config:
 				sourceId = sourceConfig['sourceId']
 			else:
 				theLogger.error("A source with the connectorClassName of CSVSource needs a value for the sourceId setting in sources.json.")
-				endBadly()	
+				self.endBadly()	
 			for field in requiredFields.split(','):
 				if not isinstance(type(sourceConfig[field]), str) or len(sourceConfig[field]):
 					tmpField = sourceConfig[field]
 				else:
 					theLogger.error("Source with id {} needs a value for the {} setting in sources.json.".format(sourceConfig['sourceId'], field))				
-					endBadly()
+					self.endBadly()
 
 			isStrict = sourceConfig['isStrict']
 		except KeyError, error_message:
 			if str(error_message) == '\'sourceId\'':
 				theLogger.error("A source with the connectorClassName of CSVSource needs a sourceId setting specified in sources.json.")
-				endBadly()			
+				self.endBadly()			
 			elif str(error_message) == '\'isStrict\'':
 				sourceConfig['isStrict'] = False
 			else:
 				theLogger.error("Source with id {} needs a {} specified in sources.json.".format(sourceConfig['sourceId'], error_message))
-				endBadly()
+				self.endBadly()
 
 		return sourceConfig
 
