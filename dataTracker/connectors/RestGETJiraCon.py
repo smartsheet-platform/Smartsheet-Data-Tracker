@@ -63,13 +63,13 @@ class RestGETJiraCon:
 		try:
 			params = None
 			args = len(tuple(re.finditer("{}", self.apiConfig['apiUrl'])))
-			if self.apiConfig['username']:
+			if 'username' in self.apiConfig:
 				if args == 2:
 					resp = requests.get(self.apiConfig['apiUrl'].format(lookupKey,lookupVal), params=params, auth=(self.apiConfig['username'], self.apiConfig['password']))
 				else:
 					resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal), params=params, auth=(self.apiConfig['username'], self.apiConfig['password']))
-			elif self.apiConfig['token']:
-				headers = {'Authorization': 'Bearer '+ self.apiConfig['token']}
+			elif 'base64Basic' in self.apiConfig:
+				headers = {'Authorization': 'Basic '+ self.apiConfig['base64Basic']}
 				if args == 2:
 					resp = requests.get(self.apiConfig['apiUrl'].format(lookupKey,lookupVal), params=params, headers=headers)
 				else:
