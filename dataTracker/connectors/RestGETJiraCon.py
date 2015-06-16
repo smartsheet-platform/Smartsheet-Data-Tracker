@@ -1,6 +1,6 @@
 """
  ----------------------------------------------------------------------
-   Copyright 2014 Smartsheet, Inc.
+   Copyright 2015 Smartsheet, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ class RestGETJiraCon:
 		 list required fields other than 'sourceId' and 'connectorClassName' from sourceConfig entry
 		 'sourceId' and 'connectorClassName' are required for every source, and are already being checked
 		"""
-		requiredFields = "apiUrl,username,password,isArray"
+		requiredFields = "apiUrl,isArray"
 		self.apiConfig = theConfig.validateSourceConfig(sourceConfig, logger, requiredFields)
 
 		return None
@@ -61,13 +61,19 @@ class RestGETJiraCon:
 
 		# query API
 		try:
+			params = None
+			args = len(tuple(re.finditer("{}", self.apiConfig['apiUrl'])))
 			if self.apiConfig['username']:
-				params = None
-				args = len(tuple(re.finditer("{}", self.apiConfig['apiUrl'])))
 				if args == 2:
 					resp = requests.get(self.apiConfig['apiUrl'].format(lookupKey,lookupVal), params=params, auth=(self.apiConfig['username'], self.apiConfig['password']))
 				else:
 					resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal), params=params, auth=(self.apiConfig['username'], self.apiConfig['password']))
+			elif self.apiConfig['token']:
+				headers = {'Authorization': 'Bearer '+ self.apiConfig['token']}
+				if args == 2:
+					resp = requests.get(self.apiConfig['apiUrl'].format(lookupKey,lookupVal), params=params, headers=headers)
+				else:
+					resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal), params=params, headers=headers)
 		except KeyError:
 			resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal))
 
