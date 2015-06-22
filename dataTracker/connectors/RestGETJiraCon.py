@@ -58,6 +58,7 @@ class RestGETJiraCon:
 
 	def findSourceMatch(self, lookupVal, lookupKey):
 		matchingRecord = {}
+		respJSON = {}
 
 		# query API
 		try:
@@ -77,7 +78,10 @@ class RestGETJiraCon:
 		except KeyError:
 			resp = requests.get(self.apiConfig['apiUrl'].format(lookupVal))
 
-		respJSON = resp.json()
+		try:
+			respJSON = resp.json()
+		except ValueError, error_message:
+			logger.error("ValueError for lookupMapping value '{}': {}".format(lookupVal, error_message))
 		try:
 			if self.apiConfig['isArray']:
 				if len(respJSON['issues']) > 0:
@@ -95,7 +99,10 @@ class RestGETJiraCon:
 		if flattened is None:
 			flattened = {}
 		if type(response) not in(dict, list):
-			flattened[(str(path) if path else "") + (key.capitalize()) if path and type(key) is not int else str(key)] = response
+			if type(key) is not int:
+				flattened[(str(path) if path else "") + (key.capitalize()) if path else str(key)] = response
+			else:
+				flattened[(str(path) if path else "") + (str(key)) if path else str(key)] = response
 		elif isinstance(response, list):
 			for i, item in enumerate(response):
 				self.parseJiraFields(item, i, "".join(filter(None,[path,key.capitalize()])), flattened)
