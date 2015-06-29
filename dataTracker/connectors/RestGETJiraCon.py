@@ -88,8 +88,8 @@ class RestGETJiraCon:
 					matchingRecord['key'] = respJSON['issues'][0]['key']
 					matchingRecord.update(self.parseJiraFields(respJSON['issues'][0]['fields']))
 			else:
-				matchingRecord.update(self.parseJiraFields(respJSON['fields']))
-
+				if 'fields' in respJSON:
+					matchingRecord.update(self.parseJiraFields(respJSON['fields']))
 		except KeyError, error_message:
 			logger.error("No Match for : {} ".format(self.apiConfig['apiUrl'].format(lookupVal)))
 
@@ -99,13 +99,10 @@ class RestGETJiraCon:
 		if flattened is None:
 			flattened = {}
 		if type(response) not in(dict, list):
-			if type(key) is not int:
-				flattened[(str(path) if path else "") + (key.capitalize()) if path else str(key)] = response
-			else:
-				flattened[(str(path) if path else "") + (str(key)) if path else str(key)] = response
+			flattened[(str(path) if path else "") + (key.capitalize()) if path and type(key) is not int else str(key)] = response
 		elif isinstance(response, list):
 			for i, item in enumerate(response):
-				self.parseJiraFields(item, i, "".join(filter(None,[path,key.capitalize()])), flattened)
+				self.parseJiraFields(item, str(i), "".join(filter(None,[path,key])), flattened)
 		else:
 			for new_key, value in response.items():
 				self.parseJiraFields(value, new_key, path + (key.capitalize()) if path and type(key) is not int else str(key), flattened)
