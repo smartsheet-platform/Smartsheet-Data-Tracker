@@ -88,8 +88,7 @@ class RestGETJiraCon:
 					matchingRecord['key'] = respJSON['issues'][0]['key']
 					matchingRecord.update(self.parseJiraFields(respJSON['issues'][0]['fields']))
 			else:
-				if 'fields' in respJSON:
-					matchingRecord.update(self.parseJiraFields(respJSON['fields']))
+				matchingRecord.update(self.parseJiraFields(respJSON['fields']))
 		except KeyError, error_message:
 			logger.error("No Match for : {} ".format(self.apiConfig['apiUrl'].format(lookupVal)))
 
