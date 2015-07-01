@@ -101,7 +101,7 @@ class RestGETJiraCon:
 			flattened[(str(path) if path else "") + (key.capitalize()) if path and type(key) is not int else str(key)] = response
 		elif isinstance(response, list):
 			for i, item in enumerate(response):
-				self.parseJiraFields(item, str(i), "".join(filter(None,[path,key])), flattened)
+				self.parseJiraFields(item, str(i), "".join(filter(None,[path,key.lower()])), flattened)
 		else:
 			for new_key, value in response.items():
 				self.parseJiraFields(value, new_key, path + (key.capitalize()) if path and type(key) is not int else str(key), flattened)
