@@ -103,7 +103,10 @@ def main():
 
 		for mapping in mappings:
 			# get sheet
-			getSheetUrl = API_URL + "/sheet/" + str(mapping['sheetId'])
+			if "2.0" in API_URL:
+				getSheetUrl = API_URL + "/sheets/" + str(mapping['sheetId'])
+			else:
+				getSheetUrl = API_URL + "/sheet/" + str(mapping['sheetId'])
 			getSheetResponse = requests.get(getSheetUrl, headers=headers)
 			logger.info('get sheet response for {}: {}'.format(str(mapping['sheetId']), getSheetResponse.status_code))
             		if getSheetResponse.status_code == 200:
@@ -147,7 +150,10 @@ def main():
 			for sheetRow in theSheet['rows']:
 				sourceMatch = [] # init sourceMatch
 				cellsPayload = [] # init payload
-				updateRowUrl = getSheetUrl + '/row/' + str(sheetRow['id']) 
+				if "2.0" in API_URL:
+					updateRowUrl = getSheetUrl + '/rows/' + str(sheetRow['id'])
+				else:
+					updateRowUrl = getSheetUrl + '/row/' + str(sheetRow['id'])
 
 				for mappingSource in mapping['sources']:
 					logger.info('Source: {}'.format(mappingSource['sourceId']))
