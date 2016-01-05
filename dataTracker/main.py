@@ -103,10 +103,7 @@ def main():
 
 		for mapping in mappings:
 			# get sheet
-			if "2.0" in API_URL:
-				getSheetUrl = API_URL + "/sheets/" + str(mapping['sheetId'])
-			else:
-				getSheetUrl = API_URL + "/sheet/" + str(mapping['sheetId'])
+			getSheetUrl = API_URL + "/sheets/" + str(mapping['sheetId'])
 			getSheetResponse = requests.get(getSheetUrl, headers=headers)
 			logger.info('get sheet response for {}: {}'.format(str(mapping['sheetId']), getSheetResponse.status_code))
             		if getSheetResponse.status_code == 200:
@@ -150,10 +147,7 @@ def main():
 			for sheetRow in theSheet['rows']:
 				sourceMatch = [] # init sourceMatch
 				cellsPayload = [] # init payload
-				if "2.0" in API_URL:
-					updateRowUrl = getSheetUrl + '/rows/' + str(sheetRow['id'])
-				else:
-					updateRowUrl = getSheetUrl + '/row/' + str(sheetRow['id'])
+				updateRowUrl = getSheetUrl + '/rows/' + str(sheetRow['id'])
 
 				for mappingSource in mapping['sources']:
 					logger.info('Source: {}'.format(mappingSource['sourceId']))
@@ -174,16 +168,6 @@ def main():
 									cellsPayload.extend(theMatch.findMatch(cell['displayValue'], theSheet['name'], currentSource, mappingSource, mappingSource['lookupMapping']['sourceKey'], logger))
 				
 				if len(cellsPayload):
-					# try to convert the payload to json and if it fails
-> 					try:
-> 						json.dumps( cellsPayload )
-> 					except:
-						# find value thats messed up and remove all characters except printable characters
-> 						for i in cellsPayload:
-> 							try:
-> 								json.dumps( i )
-> 							except:
-> 								i['value'] = filter( lambda x: x in string.printable, i['value'] )
 					payload = { 'cells': cellsPayload }
 					attempt = 0
 					updateResponse = sendUpdate(updateRowUrl, data=json.dumps(payload), headers=headers, attempt=attempt)
