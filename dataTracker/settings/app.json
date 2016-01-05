@@ -1,6 +1,6 @@
 {
 	"accessToken": "",
-	"apiURL": "https://api.smartsheet.com/1.1",
+	"apiURL": "https://api.smartsheet.com/2.0",
 	"logLevel": "logging.WARNING",
 	"logFileName": "dougFir.log",
 	"logFileMaxBytes": 10000,

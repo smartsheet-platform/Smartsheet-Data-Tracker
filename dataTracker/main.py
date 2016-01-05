@@ -2,7 +2,7 @@
 
 """
  ----------------------------------------------------------------------
-   Copyright 2014 Smartsheet, Inc.
+   Copyright 2016 Smartsheet, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -35,6 +35,7 @@ import sys
 import logging
 import datetime
 import time
+import string
 
 # debugging
 import pdb
@@ -46,6 +47,7 @@ def main():
 	APP_CONFIG_FILE = 'app.json'
 	SOURCES_FILE = 'sources.json'
 	MAPPINGS_FILE = 'mapping.json'
+
 
 	# read app config
 	appConfig = theConfig.getConfigFromFile(APP_CONFIG_FILE)
@@ -102,7 +104,7 @@ def main():
 
 		for mapping in mappings:
 			# get sheet
-			getSheetUrl = API_URL + "/sheet/" + str(mapping['sheetId'])
+			getSheetUrl = API_URL + "/sheets/" + str(mapping['sheetId'])
 			getSheetResponse = requests.get(getSheetUrl, headers=headers)
 			logger.info('get sheet response for {}: {}'.format(str(mapping['sheetId']), getSheetResponse.status_code))
             		if getSheetResponse.status_code == 200:
@@ -142,11 +144,10 @@ def main():
 
 					if 'sheetColumnId' not in outM:
 						logger.warning('Output column {} not found in sheet {}'.format(outM['sheetColumn'], theSheet['name']))
-			logger.info("")
 			for sheetRow in theSheet['rows']:
 				sourceMatch = [] # init sourceMatch
 				cellsPayload = [] # init payload
-				updateRowUrl = getSheetUrl + '/row/' + str(sheetRow['id']) 
+				updateRowUrl = getSheetUrl + '/rows/' + str(sheetRow['id'])
 
 				for mappingSource in mapping['sources']:
 					logger.info('Source: {}'.format(mappingSource['sourceId']))
@@ -178,7 +179,6 @@ def main():
 							logger.warning('updateResponse: {}'.format(updateResponse.text))
 					except AttributeError:
 						logger.error(updateResponse)
-
 		logger.info('===Smartsheet Data Tracker Utility Completed: {}'.format(str(datetime.datetime.now()).split('.')[0]))
 	else:
 		logger.error('There are no mappings configured. Please add a properly formatted mapping node to the mapping.json file.')

@@ -7,6 +7,8 @@ The Smartsheet Data Tracker is an application that uses one or more external dat
 
 ###Revision History
 
+3.0 - Jan 5, 2016. Updated to use Smartsheet API 2.0. Thanks @burritocode for the update!
+
 2.4 - Nov 13, 2014. Updated PUT update row endpoint to use preferred endpoint of PUT /sheet/{sheetId}/row/{rowId}
 
 2.3 - Feb 12, 2014. Enhanced Jira connector to support searching of custom fields, allowing search by sheet row ID. Restructured connector classes to give each connector its own file. 
