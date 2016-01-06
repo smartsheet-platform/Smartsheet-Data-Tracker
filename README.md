@@ -11,7 +11,7 @@ The Smartsheet Data Tracker is an application that uses one or more external dat
 
 2.4 - Nov 13, 2014. Updated PUT update row endpoint to use preferred endpoint of PUT /sheet/{sheetId}/row/{rowId}
 
-2.3 - Feb 12, 2014. Enhanced Jira connector to support searching of custom fields, allowing search by sheet row ID. Restructured connector classes to give each connector its own file. 
+2.3 - Feb 12, 2014. Enhanced Jira connector to support searching of custom fields, allowing search by sheet row ID. Restructured connector classes to give each connector its own file.
 
 2.2 - Jan 24, 2014. Added GET REST connector for Jira Issues.
 
@@ -19,11 +19,11 @@ The Smartsheet Data Tracker is an application that uses one or more external dat
 
 2.0 - Jan 2, 2014. Added connectors for MySQL, OpenLDAP, and REST GET. Refactored  config files for better readability.
 
-1.0 - Dec 5, 2013. Baseline application that works with CSV files. 
+1.0 - Dec 5, 2013. Baseline application that works with CSV files.
 
 ###Use Case
 
-Let’s assume your goal is to keep a sheet updated based on changes in two external CSV files - one from an employee directory and another from an issue tracking system. The Data Tracker uses values from the sheet to search for matches in the given employees.csv and issues.csv files, and then maps the results with the columns in the sheet. 
+Let’s assume your goal is to keep a sheet updated based on changes in two external CSV files - one from an employee directory and another from an issue tracking system. The Data Tracker uses values from the sheet to search for matches in the given employees.csv and issues.csv files, and then maps the results with the columns in the sheet.
 
 A simple example of this scenario is illustrated in the diagram below. The yellow indicates the lookup values (such as unique user or record IDs) which are expected by the Data Tracker to be in your sheet, and are used to find matching records in the external system. The red indicates where the values from the matching records will be placed on the sheet.
 
@@ -42,7 +42,7 @@ The Data Tracker application was built and tested using Python 2.7.5, and depend
 
 **Requests** -- In addition to the standard Python libraries this application requires the "requests" library that is available at [http://docs.python-requests.org/en/latest/](http://docs.python-requests.org/en/latest/)
 
-**MySQL-Python** -- To use the MySQL connector, the MySQL-Python library is required. 
+**MySQL-Python** -- To use the MySQL connector, the MySQL-Python library is required.
 
 In order for the library to compile it will need access to an instance of MySQL, as well as the MySQL developer libraries. If using apt-get on any Debian-based distribution, such as Ubuntu, you would run the following three commands:
 
@@ -62,11 +62,11 @@ If you don’t plan on using the OpenLDAP connector, simply don't reference the 
 
 ##Installation
 
-The application runs locally on any system that can access the Smartsheet API. On a Unix/Linux based system a good place to install the dataTracker folder is in the ‘/opt/’ directory. If that directory doesn’t already exist, create it with the following command in the command line: 
+The application runs locally on any system that can access the Smartsheet API. On a Unix/Linux based system a good place to install the dataTracker folder is in the ‘/opt/’ directory. If that directory doesn’t already exist, create it with the following command in the command line:
 
 	sudo mkdir /opt
 
-Now place the dataTracker directory in the ‘opt’ directory. 
+Now place the dataTracker directory in the ‘opt’ directory.
 
 The dataTracker directory includes:
 
@@ -74,7 +74,7 @@ The dataTracker directory includes:
 * **settings directory**
 	* **app.json** -- configuration settings for the whole application
 	* **mapping.json** -- configuration file that maps values in the external source to the sheet
-	* **sources.json** -- configuration file that holds information about each source that the application queries. 
+	* **sources.json** -- configuration file that holds information about each source that the application queries.
 * **connectors directory**
 	* **CSVCon.py** -- Python class file that houses CSV external connector
 	* **MySQLCon.py** -- Python class file that houses MySQL external connector
@@ -84,7 +84,7 @@ The dataTracker directory includes:
 	* **RestGETJiraCon.py** -- Python class file that houses Jira REST GET external connector
 * **utils directory**
 	* **config.py** -- a utility class that deals with app configurations
-	* **match.py** -- a utility class that processes matches and prepares them to send to Smartsheet API 
+	* **match.py** -- a utility class that processes matches and prepares them to send to Smartsheet API
 * **sampleData directory**
 	* **employees.csv** -- example CSV source file
 	* **issues.csv** -- example CSV source file
@@ -105,7 +105,7 @@ General settings for the whole application are kept in the `app.json` file, and 
 
 	{
 		"accessToken": "your_token_here",
-		"apiURL": "https://api.smartsheet.com/1.1",
+		"apiURL": "https://api.smartsheet.com/2.0",
 		"logLevel": "logging.WARNING",
 		"logFileName": "dougFir.log",
 		"logFileMaxBytes": 10000,
@@ -126,7 +126,7 @@ Next, you’ll need to configure the application to use your sources and map the
 
 ###Pick a Connector
 Now you'll need to pick a connector create a source that will update your sheet. Currently, the Smartsheet Data Tracker contains the following connectors to create a source:
- 
+
 * [REST GET](#restGetSourceRef)
 * [REST GET Desk.com](#restGetDeskSourceRef)
 * [REST GET JIRA](#restGetJiraIssueSourceRef)
@@ -135,7 +135,7 @@ Now you'll need to pick a connector create a source that will update your sheet.
 * [CSV](#csvSourceRef)
 
 You can also [create your own](#createOwnCon) connector.
- 
+
 
 ###Configure Source
 Each source is configured in the `sources.json` file. The following are a couple of examples of typical source configurations using the [MySQL](#mysqlConRef) and the [REST GET Desk.com](#restGetDeskConRef) connectors:
@@ -166,11 +166,11 @@ Each source is configured in the `sources.json` file. The following are a couple
 	}
 
 Refer to the [Source Reference](#sourceRef) section for a detailed description of each source and its available fields.
- 
-###Mappings
-Now you'll need to map the data that is returned from the sources to columns in the sheet. The `mappings.json` file contains mappings for each of the sheets updated by the Smartsheet Data Tracker. In this file the columns from the external system, or source, are mapped to corresponding columns in the sheet. 
 
-The following are examples of different types of mapping nodes found in the `mappings.json` file, covering the most common mapping cases. 
+###Mappings
+Now you'll need to map the data that is returned from the sources to columns in the sheet. The `mappings.json` file contains mappings for each of the sheets updated by the Smartsheet Data Tracker. In this file the columns from the external system, or source, are mapped to corresponding columns in the sheet.
+
+The following are examples of different types of mapping nodes found in the `mappings.json` file, covering the most common mapping cases.
 
 This first mapping example shows the most common use of `sourceKey`, assigning it to a key name. This method is used when a source - such as an API or OpenLDAP - return an array of key-value pairs, and the key names can be assigned to `sourceKey` as follows:
 
@@ -191,7 +191,7 @@ This first mapping example shows the most common use of `sourceKey`, assigning i
 			}
 		]
 	}
-	
+
 In situations where the source returns an indexed array of values, such as with a CSV source, the `sourceKey` uses the index position of the value it's mapping to, like so:
 
 	{
@@ -200,7 +200,7 @@ In situations where the source returns an indexed array of values, such as with 
 			{
 				"sourceId": "employees",
 				"lookupMapping": {
-					"sourceKey": 0, 
+					"sourceKey": 0,
 					"sheetColumn": "UserId"
 				},
 
@@ -224,7 +224,7 @@ Each mapping configuration is made up of the following attributes:
 
     * To find the Sheet ID through the Smartsheet UI click on the dropdown arrow on the sheet tab, and go to Properties:
 
-    * ![Sheet Properties](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/sheetProperties.png) 
+    * ![Sheet Properties](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/sheetProperties.png)
 
     * The sheet ID can also be found by [using the GET SHEET method](http://www.smartsheet.com/developers/api-documentation#h.4930jur8qsvs) through the [Smartsheet API.](http://www.smartsheet.com/developers/api-documentation)
 
@@ -233,8 +233,8 @@ Each mapping configuration is made up of the following attributes:
     * **lookupMapping** -- maps the value in the source file with the lookup value in the sheet
         * **sourceKey** -- the name or index position of the lookup value in the source record:
         * ![sourceKey Illustration](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/sourceKey.png)
-        * **sheetColumn** -- the name of the sheet column that contains the lookup value 
-    * **outputMappings** -- maps which values in the source update which cells in the sheet. 
+        * **sheetColumn** -- the name of the sheet column that contains the lookup value
+    * **outputMappings** -- maps which values in the source update which cells in the sheet.
         * **sourceKey** -- the name or position in the source record of the value to send to sheet
         * **sheetColumn** -- the name of the sheet column that will be updated with the `sourceKey` value
 
@@ -261,7 +261,7 @@ An exmaple of the REST GET JIRA Search by Row source:
 		"isArray": true,
 		"isStrict": false
 	}
-	
+
 To create a source that searches JIRA by row ID the following differences from the JIRA Get Issue source are required. For a full explanation on each of the fields please see the entry for [REST GET JIRA Issue](#restGetJiraIssueSourceRef):
 
 * **connectorClassName** -- the Python class used to parse the source connector. Same class as [REST GET JIRA Issue](#restGetJiraIssueSourceRef) source connector.
@@ -269,7 +269,7 @@ To create a source that searches JIRA by row ID the following differences from t
 * **isArray** -- flag indicating whether the API response is an array. This should be set to true, as the response from the JIRA API will be an array.
 
 To create a `lookupMapping` that will utilize this Search by Row source we add a boolean flag to lookupMapping for `lookupByRowId` in place of `sheetColumn`. The `sourceKey` value is the name of the custom field in JIRA that holds the `sheetRowID`, like so:
-	
+
 	"lookupMapping": {
 		"lookupByRowId": true,
 		"sourceKey": "Sheet_Row_ID"
@@ -278,7 +278,7 @@ To create a `lookupMapping` that will utilize this Search by Row source we add a
 
 ###Adding Columns
 
-Each `outputMapping` represents a column in the sheet. To add additional columns to the update process, find the `sourceKey` in the source, the corresponding column name in the sheet, and simply create another `outputMappings` node with those values. 
+Each `outputMapping` represents a column in the sheet. To add additional columns to the update process, find the `sourceKey` in the source, the corresponding column name in the sheet, and simply create another `outputMappings` node with those values.
 
 
 ###Setup to Run on Schedule
@@ -302,7 +302,7 @@ Each of the asterisks represents a unit of time.  Starting with the most left po
 To have the cron job send an email of the application output each time it runs add the following line to the top of the crontab file:
 
 	MAILTO="your.email@yourdomain.com"
-		
+
 When you’re done editing hit the ‘esc’ key and then type :wq to save and close the crontab file.
 
 
@@ -320,12 +320,12 @@ This CSV source uses the CSVCon connector to search the rows of a specified CSV 
 		"isStrict": false
 	}
 
-Brief description of each of the configuration settings: 
+Brief description of each of the configuration settings:
 
-* **sourceId** -- a descriptive name that will help you identify the source 
+* **sourceId** -- a descriptive name that will help you identify the source
 * **connectorClassName** -- the connector class used to parse the source
 * **fileName** -- name of the CSV file
-* **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings. 
+* **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
 
 <a href name="mysqlSourceRef"></a>
 ###MySQL
@@ -343,14 +343,14 @@ This MySQL source uses the MySQLCon connector to query the given database with t
 		"isStrict": false
 	}
 
-Brief description of each of the configuration settings: 
+Brief description of each of the configuration settings:
 
-* **sourceId** -- a descriptive name that will help you identify the source 
+* **sourceId** -- a descriptive name that will help you identify the source
 * **connectorClassName** -- the connector class used to parse the source
 * **dbServer** -- location of MySQL database server
 * **dbUser** -- username for MySQL user
 * **dbPassword** -- password for MySQL user
-* **dbName** -- database name 
+* **dbName** -- database name
 * **lookupQuery** --  SQL query for getting the output values based on the lookup value. The `%s` denotes where the lookup value will be placed into the query.
 * **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
 
@@ -373,9 +373,9 @@ The OpenLDAP source uses the OpenLDAPCon connector to search a specified LDAP or
 		"isStrict": false
 	}
 
-Brief description of each of the configuration settings: 
+Brief description of each of the configuration settings:
 
-* **sourceId** -- a descriptive name that will help you identify the source 
+* **sourceId** -- a descriptive name that will help you identify the source
 * **connectorClassName** -- the class used to parse the source
 * **ldapServer** -- location of LDAP server
 * **baseDN** -- base distinguished name on which the search is performed
@@ -400,7 +400,7 @@ The REST GET source uses the RestGetCon connector to call the given API and maps
 		"isStrict": false
 	}
 
-Brief description of each of the configuration settings: 
+Brief description of each of the configuration settings:
 
 * **sourceId** -- a descriptive name that will help you identify the source
 * **connectorClassName** -- the connector class used to parse the source
@@ -420,7 +420,7 @@ Brief description of each of the configuration settings:
 		"isArray": false,
 		"isStrict": false
 	}
-Brief description of each of the configuration settings: 
+Brief description of each of the configuration settings:
 
 * **sourceId** -- a descriptive name that will help you identify the source
 * **connectorClassName** -- the connector class used to parse the source
@@ -432,7 +432,7 @@ Brief description of each of the configuration settings:
 
 <a href name="restGetJiraIssueSourceRef"></a>
 ###REST GET JIRA Issue
-	
+
 	{
 		"sourceId": "jiraIssueAPI",
 		"connectorClassName": "RestGETJiraCon",
@@ -442,7 +442,7 @@ Brief description of each of the configuration settings:
 		"isArray": false,
 		"isStrict": false
 	}
-Brief description of each of the configuration settings: 
+Brief description of each of the configuration settings:
 
 * **sourceId** -- a descriptive name that will help you identify the source
 * **connectorClassName** -- the class used to parse the source
@@ -459,13 +459,13 @@ For ease of use, the RestGETJiraCon connector flattens the multi-layered JSON re
 	}
 
 After the response passes through the RestGETJiraCon connector in the Data Tracker, the flattened value will look like this:
-	
+
 	"assigneeDisplayname": "Zachary Taylor"
-	
+
 The following is a list of commonly used fields returned from JIRA, including some examples of flattened fields.
 
 **Example of Fields Returned from JIRA**
- 
+
 assigneeDisplayname, assigneeEmailaddress, created, creatorName, creatorEmail, description, dueDate, issuetypeName, issuetypeDescription, key, lastViewed, priority, projectName, projectKey, progress, progressTotal, reporterDisplayname, reporterEmailaddress, resolution, self, status, summary, timeoriginalestimate, timeSpent, updated, votesVotes (not a typo. this is the format the API returns the key for the number of votes cast for the issue)
 
 For a [full list of fields](https://docs.atlassian.com/jira/REST/latest/#d2e2892) available from the JIRA API, please refer to the [JIRA API documentation](https://docs.atlassian.com/jira/REST/latest/#d2e2892).
@@ -476,7 +476,7 @@ Additional connectors can be created to support any data source, public or priva
 
 	def __init__(self, sourceConfig):
 		# validates the sourceConfig
-	
+
 	def findSourceMatch(self, lookupVal, lookupKey):
 		# queries source and returns matchingRecord`
 
