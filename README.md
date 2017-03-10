@@ -27,7 +27,7 @@ Let’s assume your goal is to keep a sheet updated based on changes in two exte
 
 A simple example of this scenario is illustrated in the diagram below. The yellow indicates the lookup values (such as unique user or record IDs) which are expected by the Data Tracker to be in your sheet, and are used to find matching records in the external system. The red indicates where the values from the matching records will be placed on the sheet.
 
-![Data Tracker Mappings Illustration](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/mappings4.png)
+![Data Tracker Mappings Illustration](img/mappings4.png)
 
 ###Smartsheet API
 
@@ -224,7 +224,7 @@ Each mapping configuration is made up of the following attributes:
 
     * To find the Sheet ID through the Smartsheet UI click on the dropdown arrow on the sheet tab, and go to Properties:
 
-    * ![Sheet Properties](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/sheetProperties.png)
+    * ![Sheet Properties](img/sheetProperties.png)
 
     * The sheet ID can also be found by [using the GET SHEET method](http://www.smartsheet.com/developers/api-documentation#h.4930jur8qsvs) through the [Smartsheet API.](http://www.smartsheet.com/developers/api-documentation)
 
@@ -232,7 +232,7 @@ Each mapping configuration is made up of the following attributes:
     * **name** -- name of the source set in the sources.json file
     * **lookupMapping** -- maps the value in the source file with the lookup value in the sheet
         * **sourceKey** -- the name or index position of the lookup value in the source record:
-        * ![sourceKey Illustration](https://googledrive.com/host/0Bx6R6UA4-C6zc2NrcVZVQVNRR28/sourceKey.png)
+        * ![sourceKey Illustration](img/sourceKey.png)
         * **sheetColumn** -- the name of the sheet column that contains the lookup value
     * **outputMappings** -- maps which values in the source update which cells in the sheet.
         * **sourceKey** -- the name or position in the source record of the value to send to sheet
@@ -504,6 +504,4 @@ If you have any questions or suggestions about this document, the application, o
 	"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 	either express or implied. See the License for the specific
 	language governing permissions and limitations under the
-	License.             
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/3927b6507d54b58d0025f56d53b752fd "githalytics.com")](http://githalytics.com/smartsheet-platform/Smartsheet-Data-Tracker)
+	License.
