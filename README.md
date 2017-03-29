@@ -1,11 +1,11 @@
-#Smartsheet Data Tracker
+# Smartsheet Data Tracker
 A command line application that updates an existing sheet with data from external sources.
 
-##Purpose
+## Purpose
 
 The Smartsheet Data Tracker is an application that uses one or more external data sources to update existing rows in a Smartsheet with values determined by a lookup column in the sheet.
 
-###Revision History
+### Revision History
 
 3.0 - Jan 5, 2016. Updated to use Smartsheet API 2.0. Thanks @burritocode for the update!
 
@@ -21,7 +21,7 @@ The Smartsheet Data Tracker is an application that uses one or more external dat
 
 1.0 - Dec 5, 2013. Baseline application that works with CSV files.
 
-###Use Case
+### Use Case
 
 Let’s assume your goal is to keep a sheet updated based on changes in two external CSV files - one from an employee directory and another from an issue tracking system. The Data Tracker uses values from the sheet to search for matches in the given employees.csv and issues.csv files, and then maps the results with the columns in the sheet.
 
@@ -29,14 +29,14 @@ A simple example of this scenario is illustrated in the diagram below. The yello
 
 ![Data Tracker Mappings Illustration](img/mappings4.png)
 
-###Smartsheet API
+### Smartsheet API
 
 The Smartsheet Data Tracker utilizes the Smartsheet API, which provides a REST interface to Smartsheet features and data. The API enables Smartsheet customers to programmatically access and manage their data, and empowers application developers to build solutions on top of Smartsheet.
 
 For more information about the Smartsheet API, please visit [the Smartsheet Developer Portal](http://www.smartsheet.com/developers) for full[ API Documentation](http://www.smartsheet.com/developers/api-documentation) and[ sample applications](https://www.smartsheet.com/developers/apps).
 
 
-###Dependencies
+### Dependencies
 
 The Data Tracker application was built and tested using Python 2.7.5, and depends on the libraries listed in the next section.
 
@@ -60,7 +60,7 @@ More information on MySQL-Python can be found at the project web site: [http://m
 
 If you don’t plan on using the OpenLDAP connector, simply don't reference the OpenLDAPSource class in the `sources.json` file. More information on python-ldap can be found at the project web site:  [http://python-ldap.org/](http://python-ldap.org/)
 
-##Installation
+## Installation
 
 The application runs locally on any system that can access the Smartsheet API. On a Unix/Linux based system a good place to install the dataTracker folder is in the ‘/opt/’ directory. If that directory doesn’t already exist, create it with the following command in the command line:
 
@@ -89,17 +89,17 @@ The dataTracker directory includes:
 	* **employees.csv** -- example CSV source file
 	* **issues.csv** -- example CSV source file
 
-##Configuration
+## Configuration
 
-###Generate API Access Token
+### Generate API Access Token
 
-For the Data Tracker application to access Smartsheet, an API Access Token will need to be generated via your Smartsheet account. Please review the Smartsheet API documentation section on how to [generate a Smartsheet Access Token](http://www.google.com/url?q=http%3A%2F%2Fwww.smartsheet.com%2Fdevelopers%2Fapi-documentation%23h.5osh0dl59e5m&sa=D&sntz=1&usg=AFQjCNFv3Ithnb6Ghc_ynWko0jASYkGq3A).
+For the Data Tracker application to access Smartsheet, an API Access Token will need to be generated via your Smartsheet account. Please review the Smartsheet API documentation section on how to [generate a Smartsheet Access Token](http://smartsheet-platform.github.io/api-docs/#generating-access-token).
 
 When the token is generated, copy and paste it into the `app.json` file as value for accessToken:
 
 	"accessToken" = “your_token_here”,
 
-###Set App Level Configs
+### Set App Level Configs
 
 General settings for the whole application are kept in the `app.json` file, and look like:
 
@@ -124,7 +124,7 @@ Brief description of the attributes:
 
 Next, you’ll need to configure the application to use your sources and map the values from those sources to the appropriate columns in a sheet.
 
-###Pick a Connector
+### Pick a Connector
 Now you'll need to pick a connector create a source that will update your sheet. Currently, the Smartsheet Data Tracker contains the following connectors to create a source:
 
 * [REST GET](#restGetSourceRef)
@@ -137,7 +137,7 @@ Now you'll need to pick a connector create a source that will update your sheet.
 You can also [create your own](#createOwnCon) connector.
 
 
-###Configure Source
+### Configure Source
 Each source is configured in the `sources.json` file. The following are a couple of examples of typical source configurations using the [MySQL](#mysqlConRef) and the [REST GET Desk.com](#restGetDeskConRef) connectors:
 
 **MySQL**
@@ -167,7 +167,7 @@ Each source is configured in the `sources.json` file. The following are a couple
 
 Refer to the [Source Reference](#sourceRef) section for a detailed description of each source and its available fields.
 
-###Mappings
+### Mappings
 Now you'll need to map the data that is returned from the sources to columns in the sheet. The `mappings.json` file contains mappings for each of the sheets updated by the Smartsheet Data Tracker. In this file the columns from the external system, or source, are mapped to corresponding columns in the sheet.
 
 The following are examples of different types of mapping nodes found in the `mappings.json` file, covering the most common mapping cases.
@@ -238,14 +238,14 @@ Each mapping configuration is made up of the following attributes:
         * **sourceKey** -- the name or position in the source record of the value to send to sheet
         * **sheetColumn** -- the name of the sheet column that will be updated with the `sourceKey` value
 
-##Run
+## Run
 Now with everything configured, you can run the application with the following command:
 
 	python main.py
 
 
-##Additional Features
-###Search by Row (JIRA)
+## Additional Features
+### Search by Row (JIRA)
 In addition to the REST GET JIRA Issue source, the JIRA connector can also support a source that searches by the row ID of a sheet. This comes in handy if a unique column value - such as the JIRA Issue key - is not available. For instance, in combination with a [Zapier](http://zapier.com) work flow that creates new JIRA Issues from new rows in a sheet - putting the row ID into a custom field for the JIRA Issue - using the row ID for the lookup value would allow for the Data Tracker to find the correct JIRA Issue.
 
 An exmaple of the REST GET JIRA Search by Row source:
@@ -276,12 +276,12 @@ To create a `lookupMapping` that will utilize this Search by Row source we add a
 	},
 
 
-###Adding Columns
+### Adding Columns
 
 Each `outputMapping` represents a column in the sheet. To add additional columns to the update process, find the `sourceKey` in the source, the corresponding column name in the sheet, and simply create another `outputMappings` node with those values.
 
 
-###Setup to Run on Schedule
+### Setup to Run on Schedule
 
 The Data Tracker application can be configured to automatically run on a schedule,.  Please refer to your system documentation for details on how to setup a scheduled job.  Here is how to add Data Tracker as a scheduled cron job on a UNIX/Linux system:
 
@@ -307,9 +307,9 @@ When you’re done editing hit the ‘esc’ key and then type :wq to save and c
 
 
 <a href name="sourceRef"></a>
-##Source Reference
+## Source Reference
 <a href name="csvSourceRef"></a>
-###CSV
+### CSV
 
 This CSV source uses the CSVCon connector to search the rows of a specified CSV file for the lookup value.  An example of a source node for a CSV source called "employees" looks like this:
 
@@ -328,7 +328,7 @@ Brief description of each of the configuration settings:
 * **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
 
 <a href name="mysqlSourceRef"></a>
-###MySQL
+### MySQL
 
 This MySQL source uses the MySQLCon connector to query the given database with the value of the lookupQuery setting, and then maps the results of the first record returned with the output mapping columns in the sheet. The configuration for the MySQL looks like this:
 
@@ -355,7 +355,7 @@ Brief description of each of the configuration settings:
 * **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
 
 <a href name="openLdapSourceRef"></a>
-###OpenLDAP
+### OpenLDAP
 
 The OpenLDAP source uses the OpenLDAPCon connector to search a specified LDAP organizational unit for a given user, or cn. The configuration of the OpenLDAP source looks like this:
 
@@ -388,7 +388,7 @@ Brief description of each of the configuration settings:
 * **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
 
 <a href name="restGetSourceRef"></a>
-###REST GET
+### REST GET
 
 The REST GET source uses the RestGetCon connector to call the given API and maps the returning JSON object’s top level attributes (or attributes of the first object in the array if isArray = true) to the appropriate columns in the sheet being updated. The configuration for this source looks like this:
 
@@ -409,7 +409,7 @@ Brief description of each of the configuration settings:
 * **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
 
 <a href name="restGetDeskSourceRef"></a>
-###REST GET Desk.com Cases
+### REST GET Desk.com Cases
 
 	{
 		"sourceId": "deskAPI",
@@ -431,7 +431,7 @@ Brief description of each of the configuration settings:
 * **isStrict** -- setting that tells the Smartsheet API to be strict or lenient with cell validation. This setting is optional for each source, and is set to false by default if not specified in the source configuration settings.
 
 <a href name="restGetJiraIssueSourceRef"></a>
-###REST GET JIRA Issue
+### REST GET JIRA Issue
 
 	{
 		"sourceId": "jiraIssueAPI",
@@ -471,7 +471,7 @@ assigneeDisplayname, assigneeEmailaddress, created, creatorName, creatorEmail, d
 For a [full list of fields](https://docs.atlassian.com/jira/REST/latest/#d2e2892) available from the JIRA API, please refer to the [JIRA API documentation](https://docs.atlassian.com/jira/REST/latest/#d2e2892).
 
 <a href name="createOwnCon"></a>
-###Create Your Own
+### Create Your Own
 Additional connectors can be created to support any data source, public or private. To create a new connector create a connector Python module in the `connectors` directory.  The connector class should follow the same structure as the other connector classes. Namely, the new class should include the following function signatures:
 
 	def __init__(self, sourceConfig):
@@ -483,13 +483,13 @@ Additional connectors can be created to support any data source, public or priva
 To use a new source in the Data Tracker application, a sourceConfig entry in the `sources.json` file will need to be created for the class. Each sourceConfig node must have a sourceId attribute set to a unique value, as well as a connectorClassName attribute that is set to the name of the new connector class.
 
 
-##Help and Contact
+## Help and Contact
 
 If you have any questions or suggestions about this document, the application, or about the Smartsheet API in general please contact us at api@smartsheet.com. Development questions can also be posted to[ Stackoverflow](http://stackoverflow.com/) with the tag[ smartsheet-api](http://stackoverflow.com/questions/tagged/smartsheet-api).
 
 ***The Smartsheet Platform team***
 
-##License
+## License
 
 	Copyright 2014 Smartsheet, Inc.
 
